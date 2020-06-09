@@ -10,12 +10,9 @@ import { Button } from '@material-ui/core';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import TextField from '@material-ui/core/TextField';
 
-import GitHubIcon from '@material-ui/icons/GitHub';
-
 import { injectIntl, FormattedMessage, WrappedComponentProps } from 'react-intl';
 import { GHUser } from '../models';
 import Layout from './layout';
-import { ButtonStyling } from '../components/Button/main.style';
 
 interface Props extends AppStore, WrappedComponentProps {
   ghub: {
@@ -42,10 +39,6 @@ class IndexPage extends React.Component<Props, State> {
     const { onGHFetchUser } = this.props;
     console.log(this.state.input);
     onGHFetchUser(this.state.input);
-  }
-
-  xurispa(evt: any) {
-    console.log(evt.target);
   }
 
   setLanguage(lang: String) {
