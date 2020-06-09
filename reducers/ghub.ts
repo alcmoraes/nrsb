@@ -10,17 +10,11 @@ const initialState = {
 
 type State = typeof initialState
 
-export default handleActions<State, { user: GHUser }>(
+export default handleActions<State, {
+    user: GHUser
+}>(
     {
-        [fetchGHUserCompleted.toString()]: (_, p) => {
-            try {
-                const user = new GHUser(p.payload.user);
-                return { user }
-            } catch (ERR) {
-                console.log(ERR)
-                return { user: new GHUser({}) }
-            }
-        }
+        [fetchGHUserCompleted.toString()]: (_, { payload: { user } }) => ({ user: new GHUser(user) })
     },
     initialState
 );
