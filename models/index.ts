@@ -1,0 +1,1 @@
+export { default as GHUser } from './gh_user';
