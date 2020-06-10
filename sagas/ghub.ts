@@ -1,10 +1,10 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { fetchGHUser, fetchGHUserCompleted, throwError } from '../reducers';
-import { getGHUserFromAPI } from '../api';
+import { get } from '../lib/HTTP';
 
-function* fetchGHUserSaga(data: { payload: String }) {
+function* fetchGHUserSaga({ payload }: { payload: String }) {
     try {
-        const user = yield call(getGHUserFromAPI, data.payload);
+        const user = yield call(get, payload);
         yield put(fetchGHUserCompleted({user}));
     } catch (error) {
         yield put(throwError(error));

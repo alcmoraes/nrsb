@@ -1,6 +1,5 @@
 import Document, { Head, Main, NextScript, DocumentProps } from 'next/document'
 
-
 interface Props extends DocumentProps {
   localeDataScript: any
   locale: any
@@ -8,23 +7,8 @@ interface Props extends DocumentProps {
 
 // The document (which is SSR-only) needs to be customized to expose the locale
 // data for the user's locale for React Intl to work in the browser.
-export default class IntlDocument extends Document<Props> {
-  static async getInitialProps(context: any) {
-    const props = await super.getInitialProps(context)
-    const {
-      req: { locale, localeDataScript },
-    } = context
-    return {
-      ...props,
-      locale,
-      localeDataScript,
-    }
-  }
-
+class IntlDocument extends Document<Props> {
   render() {
-    // Polyfill Intl API for older browsers
-    const polyfill = `https://cdn.polyfill.io/v3/polyfill.js?features=Intl.~locale.${this.props.locale}`
-
     return (
       <html>
         <Head>
@@ -33,15 +17,11 @@ export default class IntlDocument extends Document<Props> {
         </Head>
         <body>
           <Main />
-          <script src={polyfill} />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: this.props.localeDataScript,
-            }}
-          />
           <NextScript />
         </body>
       </html>
     )
   }
 }
+
+export default IntlDocument

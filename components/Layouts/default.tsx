@@ -1,13 +1,11 @@
 import React, { PureComponent, ReactNode } from 'react'
 import Snackbar from '@material-ui/core/Snackbar'
 
-import { injectIntl, WrappedComponentProps } from 'react-intl';
-
 import { connect } from 'react-redux'
 import { clearError } from '../../reducers';
 import { AppStore } from '../../interfaces';
 
-interface Props extends AppStore, WrappedComponentProps {
+interface Props extends AppStore {
     error?: Error
     onClearErrors: () => void
 }
@@ -54,4 +52,4 @@ function mapStateToProps(state: any) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-  )(injectIntl(Index))
+  )(Index)

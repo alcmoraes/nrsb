@@ -4,7 +4,7 @@ const GHUserRecord = {
     login: "",
     id: 0,
     node_id: "",
-    avatar_url: "",
+    avatar_url: "https://avatars2.githubusercontent.com/u/2840564?s=460&v=4",
     gravatar_id: "",
     url: "",
     html_url: "",

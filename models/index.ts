@@ -1,1 +1,1 @@
-export { default as GHUser } from './gh_user';
+export { default as GHUser } from './ghuser';
