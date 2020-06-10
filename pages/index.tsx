@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { i18n, withTranslation } from '../i18n'
+import { i18n, withTranslation, Link } from '../i18n'
 
 import { connect } from 'react-redux'
 
 import { AppStore } from '../interfaces';
-import { throwError } from '../reducers';
+import { throwError, logoutUser } from '../reducers';
 import { Button } from '@material-ui/core';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import TextField from '@material-ui/core/TextField';
@@ -16,7 +16,8 @@ import { WithTranslation } from 'next-i18next';
 import { UserCard } from '../components';
 
 interface Props extends AppStore, WithTranslation {
-  onThrowError: (err: Error) => void
+  onThrowError: (err: Error) => void,
+  onLogoutUser: () => void
 }
 
 interface State {
@@ -40,16 +41,6 @@ class IndexPage extends React.Component<Props, State> {
       return { namespacesRequired: [ 'index' ] };
   }
 
-  async lookupUser() {
-    try{
-      let user = await get(`/api/ghub/user?u=${this.state.input}`);
-      this.setState({ user: new GHUser(user) });
-    } catch(ERR){
-      let { onThrowError } = this.props;
-      onThrowError(ERR);
-    }
-  }
-
   render() {
 
     const { t } = this.props;
@@ -68,22 +59,16 @@ class IndexPage extends React.Component<Props, State> {
                 </ButtonGroup>
               </div>
               <div className="col-lg-12 text-right mt-3">
-                <a target="_blank" href="https://github.com/alcmoraes/nrsb">
-                  {t('more_on_github')}
-                </a>
+                <Link href="/ghub" as="/ghub">
+                  <a>{t('ghub_user_fetcher')}</a>
+                </Link>
+                <br/>
+                <Button onClick={this.props.onLogoutUser}>
+                  {t('logout')}
+                </Button>
               </div>
             </div>
           </div>
-          <div className="text-center row">
-            <div className="col-lg-12">
-              <TextField value={this.state.input} onChange={(e) => this.setState({ input: e.target.value })} id="outlined-basic" label="@username" variant="outlined" />
-            </div>
-            <div className="col-lg-12 mt-2">
-              <Button variant="contained" color="primary" onClick={this.lookupUser.bind(this)}>{t('lookup_github_user')}</Button>
-            </div>
-          </div>
-          <hr />
-          <UserCard user={this.state.user} />
         </div>
       </Layout>
     )
@@ -94,7 +79,8 @@ class IndexPage extends React.Component<Props, State> {
 
 function mapDispatchToProps(dispatch: any) {
   return {
-    onThrowError: (err: Error) => dispatch(throwError(err))
+    onThrowError: (err: Error) => dispatch(throwError(err)),
+    onLogoutUser: () => dispatch(logoutUser())
   };
 }
 

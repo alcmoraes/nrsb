@@ -1,5 +1,4 @@
 {
     "title": "Um boilerplate em Typescript que utiliza NextJS + Redux Saga + i18next",
-    "lookup_github_user": "Buscar usuário do github",
-    "more_on_github": "Mais no github"
+    "ghub_user_fetcher": "Rota de busca de usuário do Github"
 }

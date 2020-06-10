@@ -4,14 +4,14 @@ import { createAction, handleActions } from 'redux-actions';
 export const throwError = createAction('THROW_ERROR');
 export const clearError = createAction('CLEAR_ERROR');
 
-const initialState = new Error()
-type State = typeof initialState
+export const ErrorState = new Error()
+type State = typeof ErrorState
 
 // Handle actions
-export default handleActions<State, Error>(
+export default handleActions<State, typeof ErrorState>(
     {
         [throwError.toString()]: (_, { payload }) => payload,
         [clearError.toString()]: () => new Error()
     },
-    initialState
+    ErrorState
 );

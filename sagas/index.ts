@@ -1,7 +1,7 @@
 import { all, fork } from 'redux-saga/effects';
 
-import ghub from './ghub';
+import auth from './auth';
 
 export default function* mainSaga() {
-    yield all([fork(ghub)]);
+    yield all([fork(auth)]);
 }

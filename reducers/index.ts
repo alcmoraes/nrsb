@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux-immutable';
 
-import ghub from './ghub';
+import auth from './auth';
 import error from './error';
 
-export * from './ghub';
+export * from './auth';
 export * from './error';
 
-export default combineReducers({ ghub, error });
+export default combineReducers({ auth, error });

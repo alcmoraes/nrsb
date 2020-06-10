@@ -2,25 +2,47 @@ import React, { PureComponent, ReactNode } from 'react'
 import Snackbar from '@material-ui/core/Snackbar'
 
 import { connect } from 'react-redux'
-import { clearError } from '../../reducers';
+import { clearError, ErrorState, AuthState, authUser } from '../../reducers';
 import { AppStore } from '../../interfaces';
 
+import { Router } from '../../i18n'
+
 interface Props extends AppStore {
-    error?: Error
-    onClearErrors: () => void
+    error?: typeof ErrorState,
+    auth?: typeof AuthState,
+    onClearErrors: () => void,
+    onAuthUser: (p: any) => void
 }
 interface State {}
 
 class Index extends PureComponent<Props, State> {
 
-    clearError() {
-        const { onClearErrors } = this.props;
-        onClearErrors();
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {}
+    }
+
+    static getDerivedStateFromProps(nextProps: Props) {
+        if(process.browser) {
+            const { onAuthUser, auth } = nextProps;
+            let credentials = localStorage.getItem("stored_credentials");
+            if(!auth?.user.id && credentials) {
+                onAuthUser(JSON.parse(credentials))
+            } else if (!auth?.user.id && Router.asPath.indexOf("/auth") < 0) {
+                // If user is not authenticated and it's outside /auth, send it to /auth
+                Router.push("/auth");
+            } else if(auth?.user.id && Router.asPath.indexOf("/auth") >= 0) {
+                // If user is authenticated and is in /auth, send it to /
+                Router.push("/");
+            }
+        }
+        return {}
     }
 
     render(): ReactNode {
 
-        const { children } = this.props
+        const { children, auth } = this.props
 
         return (
             <div className="wrapper">
@@ -28,9 +50,12 @@ class Index extends PureComponent<Props, State> {
                     open={Boolean(this.props.error?.message)}
                     message={this.props.error ? this.props.error.message : ''}
                     autoHideDuration={4000}
-                    onClose={this.clearError.bind(this)}
+                    onClose={this.props.onClearErrors}
                 />
-                {children}
+                {/* `process.browser prevents server to render non authenticated page` */}
+                { process.browser ? (
+                    auth?.user.id || Router.asPath.indexOf('/auth') > -1 ? children : null
+                ) : null }
             </div>
         )
     }
@@ -39,12 +64,14 @@ class Index extends PureComponent<Props, State> {
 
 function mapStateToProps(state: any) {
     return {
-      error: state.get('error')
+      error: state.get('error'),
+      auth: state.get('auth')
     };
   }
   
   function mapDispatchToProps(dispatch: any) {
       return {
+        onAuthUser: (p: any) => dispatch(authUser(p)),
         onClearErrors: () => dispatch(clearError())
       };
   }
