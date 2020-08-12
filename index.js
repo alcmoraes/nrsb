@@ -1,6 +1,6 @@
-const { setConfig } = require('next/config')
-const { publicRuntimeConfig } = require('./next.config')(process.env.NODE_ENV, {defaultConfig: {}})
+const { setConfig } = require('next/config');
+const { publicRuntimeConfig } = require('./next.config')(process.env.NODE_ENV, { defaultConfig: {} });
 
-setConfig({ publicRuntimeConfig })
+setConfig({ publicRuntimeConfig });
 
 require('./server');

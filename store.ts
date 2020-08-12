@@ -7,10 +7,6 @@ import mainReducer from './reducers';
 
 const sagaMiddleware = createSagaMiddleware();
 // eslint-disable-next-line no-underscore-dangle
-export default createStore(
-    mainReducer,
-    Immutable.fromJS({}),
-    compose(applyMiddleware(sagaMiddleware))
-);
+export default createStore(mainReducer, Immutable.fromJS({}), compose(applyMiddleware(sagaMiddleware)));
 
 sagaMiddleware.run(mainSaga);

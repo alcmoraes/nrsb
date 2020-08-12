@@ -1,4 +1,4 @@
 export interface AppStore {
-  children?: any,
-  dispatch?: Function
+  children?: any;
+  dispatch?: () => void;
 }
