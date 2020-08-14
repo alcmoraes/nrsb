@@ -24,6 +24,15 @@ export const Media = {
 export const Colors = {
   woodsmoke: '#111212',
   white: '#FFFFFF',
+  'blue-100': '#ebf3ff',
+  'blue-200': '#cce0ff',
+  'blue-300': '#99c2ff',
+  'blue-400': '#66a3ff',
+  'blue-500': '#3385ff',
+  'blue-600': '#3385ff',
+  'blue-700': '#075fe3',
+  'blue-800': '#0e58c6',
+  'blue-900': '#1551aa',
 };
 
 export const rem = (...args: string[]) => {

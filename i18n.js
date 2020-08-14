@@ -1,5 +1,12 @@
 const NextI18Next = require('next-i18next').default;
-const { localeSubpaths } = require('next/config').default().publicRuntimeConfig;
+
+let localeSubpaths;
+
+try {
+  localeSubpaths = require('next/config').default().publicRuntimeConfig.localeSubpaths;
+} catch (ERR) {
+  localeSubpaths = 'all';
+}
 
 const localeSubpathVariations = {
   all: {
