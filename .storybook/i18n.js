@@ -6,6 +6,12 @@ i18n.use(initReactI18next).init({
   lng: 'en',
   whitelist: ['br', 'en'],
   debug: true,
+  backend: {
+    loadPath: '../public/i18n/{{lng}}/{{ns}}.json',
+  },
+  react: {
+    wait: true,
+  },
 });
 
 export default i18n;

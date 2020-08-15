@@ -23,7 +23,9 @@
   },
   "exclude": [
     "node_modules",
-    "components/**/*.stories.tsx"
+    "components/**/*.stories.tsx",
+    "components/**/*.test.tsx",
+    "__mocks__/*.ts"
   ],
   "include": [
     "**/*.ts",

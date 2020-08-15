@@ -36,7 +36,7 @@ const GHUserRecord = {
 };
 
 export default class GHUser extends Record(GHUserRecord) {
-  constructor(props: any) {
+  constructor(props?: typeof GHUserRecord) {
     props ? super(props) : super();
   }
 }

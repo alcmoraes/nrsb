@@ -15,7 +15,7 @@ export interface ButtonProps extends WithTranslation {
   size: Sizes;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, size }: ButtonProps) => {
+export const Button: React.FC<ButtonProps> = ({ t, label, size }: ButtonProps) => {
   return <button css={[styles.Button, styles[size]]}>{label}</button>;
 };
 
