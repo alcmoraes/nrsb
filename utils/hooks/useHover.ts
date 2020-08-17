@@ -10,7 +10,7 @@ const useHover = <T extends Element | any>(ref: RefObject<T>): boolean => {
   useEffect(
     // eslint-disable-next-line consistent-return
     () => {
-      const node = ref.current;
+      const node = ref.current as HTMLInputElement;
       if (node) {
         node.addEventListener('mouseover', handleMouseOver);
         node.addEventListener('mouseout', handleMouseOut);

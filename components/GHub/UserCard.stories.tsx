@@ -1,7 +1,6 @@
 import React from 'react';
 import UserCard, { UserCardProps } from './UserCard';
 import { Story, Meta } from '@storybook/react';
-import { GHUser } from '../../models';
 import { withTranslation } from 'react-i18next';
 
 export default {

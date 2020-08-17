@@ -7,7 +7,7 @@ const UserRecord = {
 };
 
 export default class User extends Record(UserRecord) {
-  constructor(props: any) {
+  constructor(props?: typeof UserRecord) {
     props ? super(props) : super();
   }
 }

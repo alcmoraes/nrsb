@@ -1,7 +1,8 @@
-import { all, put, takeLatest } from 'redux-saga/effects';
-import { authUser, authUserCompleted, throwError } from '../reducers';
+import { all, put, takeLatest, PutEffect, AllEffect, ForkEffect } from 'redux-saga/effects';
+import { authUser, authUserCompleted, throwError, AuthUserSignature } from '../reducers';
+import { Action } from 'redux-actions';
 
-function* authUserSaga(p: { payload: { email: string; password: string } }) {
+function* authUserSaga(p: { payload: AuthUserSignature }): Generator<PutEffect<Action<any>>, void, unknown> {
   try {
     // TODO: Replace with a proper authentiaction method
     if (p.payload.email == 'admin' && p.payload.password == 'admin') {
@@ -17,6 +18,6 @@ function* authUserSaga(p: { payload: { email: string; password: string } }) {
   }
 }
 
-export default function* authSaga() {
+export default function* authSaga(): Generator<AllEffect<ForkEffect<never>>, void, unknown> {
   yield all([takeLatest(authUser, authUserSaga)]);
 }

@@ -1,7 +1,7 @@
-import { all, fork } from 'redux-saga/effects';
+import { all, fork, AllEffect, ForkEffect } from 'redux-saga/effects';
 
 import auth from './auth';
 
-export default function* mainSaga() {
+export default function* mainSaga(): Generator<AllEffect<ForkEffect<void>>, void, unknown> {
   yield all([fork(auth)]);
 }

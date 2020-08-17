@@ -1,94 +1,76 @@
-import * as React from 'react';
-import { withTranslation } from '../i18n';
-
-import { connect } from 'react-redux';
-
-import { AppStore } from '../interfaces';
-import { authUser } from '../reducers';
-import { Button } from '@material-ui/core';
+import React from 'react';
+import Joi from 'joi';
 import TextField from '@material-ui/core/TextField';
-
-import Layout from '../components/Layouts';
 import { WithTranslation } from 'next-i18next';
+import { NextPage } from 'next';
+import { joiResolver } from '@hookform/resolvers';
+import { connect } from 'react-redux';
+import { Button } from '@material-ui/core';
+import { useForm } from 'react-hook-form';
 
-interface Props extends AppStore, WithTranslation {
-  onAuthUser: (auth: { email: string; password: string }) => any;
+import { withTranslation } from '../i18n';
+import { authUser, AuthUserSignature } from '../reducers';
+import Layout from '../components/Layouts';
+import { Dispatch } from 'redux';
+
+interface Props extends WithTranslation {
+  onAuthUser: (auth: AuthUserSignature) => void;
 }
 
-interface State {
-  email: string;
-  password: string;
-}
+const AuthPage: NextPage<Props> = ({ t, onAuthUser }: Props) => {
+  const { register, handleSubmit, errors } = useForm({
+    resolver: joiResolver(
+      Joi.object({
+        email: Joi.string().required(),
+        password: Joi.string().required(),
+      }),
+    ),
+  });
 
-class IndexPage extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      email: '',
-      password: '',
-    };
-  }
-
-  static async getInitialProps() {
-    return { namespacesRequired: ['index'] };
-  }
-
-  async authUser() {
-    const { onAuthUser } = this.props;
-    onAuthUser(this.state);
-  }
-
-  render() {
-    const { t } = this.props;
-
-    return (
-      <Layout>
-        <div className='container login text-center mt-5'>
-          <h1>{t('login')}</h1>
-          <hr />
+  return (
+    <Layout>
+      <div className='container login text-center mt-5'>
+        <h1>{t('login')}</h1>
+        <hr />
+        <form onSubmit={handleSubmit(onAuthUser)}>
           <div className='row mt-5'>
             <div className='col-12 mt-5'>
               <TextField
-                value={this.state.email}
-                onChange={e => this.setState({ email: e.target.value })}
-                id='email'
-                label='email'
+                error={Boolean(errors.email)}
+                helperText={errors.email?.message}
+                inputRef={register}
+                name='email'
+                label={t('email').toLowerCase()}
                 variant='outlined'
               />
             </div>
             <div className='col-12 mt-2'>
               <TextField
+                error={Boolean(errors.password)}
+                helperText={errors.password?.message}
+                inputRef={register}
                 type='password'
-                value={this.state.password}
-                onChange={e => this.setState({ password: e.target.value })}
-                id='password'
-                label='password'
+                name='password'
+                label={t('password').toLowerCase()}
                 variant='outlined'
               />
             </div>
             <div className='col-lg-12 mt-2'>
-              <Button variant='contained' color='primary' onClick={this.authUser.bind(this)}>
+              <Button variant='contained' color='primary' type='submit'>
                 {t('login')}
               </Button>
             </div>
           </div>
-        </div>
-      </Layout>
-    );
-  }
-}
+        </form>
+      </div>
+    </Layout>
+  );
+};
 
-function mapStateToProps(state: any) {
+function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    auth: state.get('auth'),
+    onAuthUser: (payload: AuthUserSignature) => dispatch(authUser(payload)),
   };
 }
 
-function mapDispatchToProps(dispatch: any) {
-  return {
-    onAuthUser: (payload: any) => dispatch(authUser(payload)),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withTranslation('auth')(IndexPage));
+export default connect(null, mapDispatchToProps)(withTranslation('auth')(AuthPage));

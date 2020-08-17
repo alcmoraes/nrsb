@@ -10,7 +10,7 @@ const useFocus = <T extends Element | any>(ref: RefObject<T>) => {
   useEffect(
     // eslint-disable-next-line consistent-return
     () => {
-      const node = ref.current;
+      const node = ref.current as HTMLInputElement;
       if (node) {
         node.addEventListener('focus', handleFocus);
         node.addEventListener('blur', handleBlur);

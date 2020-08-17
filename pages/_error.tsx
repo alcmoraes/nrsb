@@ -1,6 +1,7 @@
 import React from 'react';
 import { Router, withTranslation } from '../i18n';
 import { WithTranslation } from 'next-i18next';
+import { ServerResponse, IncomingMessage } from 'http';
 
 interface Props extends WithTranslation {
   statusCode: number;
@@ -13,10 +14,18 @@ function Error(props: Props) {
   return <p>{statusCode ? t(`${statusCode}`) : t('fallback')}</p>;
 }
 
-Error.getInitialProps = ({ res, req, err }: any) => {
+Error.getInitialProps = ({
+  res,
+  req,
+  err,
+}: {
+  res: ServerResponse;
+  req: IncomingMessage;
+  err: (Error & { statusCode?: number }) | null;
+}) => {
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
   if (statusCode === 404) {
-    if (req.url.match(/\/$/)) {
+    if (req.url?.match(/\/$/)) {
       const withoutTrailingSlash = req.url.substr(0, req.url.length - 1);
       if (res) {
         res.writeHead(303, {

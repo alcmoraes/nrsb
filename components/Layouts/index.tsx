@@ -1,3 +1,3 @@
-import base from './default';
+import base from './base';
 
 export default base;

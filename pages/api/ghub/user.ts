@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-unfetch';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
   const user = req.query?.u;
   let data = null;
   try {

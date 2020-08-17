@@ -1,15 +1,10 @@
 import React from 'react';
 import Document, { Head, Main, NextScript, DocumentProps } from 'next/document';
 
-interface Props extends DocumentProps {
-  localeDataScript: any;
-  locale: any;
-}
+type Props = DocumentProps;
 
-// The document (which is SSR-only) needs to be customized to expose the locale
-// data for the user's locale for React Intl to work in the browser.
 class IntlDocument extends Document<Props> {
-  render() {
+  render(): JSX.Element {
     return (
       <html>
         <Head>

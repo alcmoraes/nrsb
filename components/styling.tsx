@@ -35,13 +35,13 @@ export const Colors = {
   'blue-900': '#1551aa',
 };
 
-export const rem = (...args: string[]) => {
-  const output: any = [];
+export const rem = (...args: string[]): string => {
+  const output: string[] = [];
   const base = 16;
   const power = process.browser && IsMobile() ? 0.9 : 1;
 
   args.map((_, idx) => {
-    const innerOutput: any = [];
+    const innerOutput: string[] = [];
     const innerArgs = args[idx].split(' ');
     innerArgs.map((_, innerIdx) => {
       innerOutput.push((power / base) * parseInt(innerArgs[innerIdx].split('px')[0]) + 'rem');
